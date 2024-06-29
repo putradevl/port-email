@@ -31,7 +31,7 @@
           if (response.ok) {
             // Email sent successfully
             alert('Email berhasil dikirim');
-            window.location.href = '/'; // Redirect to home page or success page
+            window.location.href = '#contact'; // Redirect to home page or success page
           } else {
             const result = await response.json();
             alert('Error: ' + result.error);

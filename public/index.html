@@ -12,6 +12,35 @@
   document.documentElement.classList.remove('dark')
 }
     </script>
+    <script>
+      async function handleSubmit(event) {
+        event.preventDefault();
+  
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+  
+        try {
+          const response = await fetch('/api/send-email.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+  
+          if (response.ok) {
+            // Email sent successfully
+            alert('Email sent successfully!');
+            window.location.href = '/'; // Redirect to home page or success page
+          } else {
+            const result = await response.json();
+            alert('Error: ' + result.error);
+          }
+        } catch (error) {
+          alert('Error: ' + error.message);
+        }
+      }
+    </script>
 </head>
 <body>
 <!-- hedaer section start -->

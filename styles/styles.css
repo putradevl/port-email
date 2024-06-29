@@ -1,0 +1,21 @@
+/* Tambahkan gaya sesuai kebutuhan */
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .text-primary {
+    color: #3498db;
+  }
+  
+  .bg-primary {
+    background-color: #3498db;
+  }
+  
+  .text-dark {
+    color: #333;
+  }
+  
+  .bg-slate-200 {
+    background-color: #e2e8f0;
+  }
+  

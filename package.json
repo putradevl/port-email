@@ -1,14 +1,15 @@
 {
-    "name": "my-project",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "dev": "vercel dev"
-    },
-    "dependencies": {
-        "nodemailer": "^6.9.14"
-    },
-    "author": "",
-    "license": "ISC"
+  "name": "my-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "nodemailer": "^6.6.3",
+    "dotenv": "^10.0.0"
+  },
+  "author": "",
+  "license": "ISC"
 }

@@ -5,9 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/styles/styles.css">
   <title>Contact Form</title>
+  <script>
+    async function handleSubmit(event) {
+      event.preventDefault();
+
+      const formData = new FormData(event.target);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('/api/send-email.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          // Email sent successfully
+          alert('Email sent successfully!');
+          window.location.href = '/'; // Redirect to home page or success page
+        } else {
+          const result = await response.json();
+          alert('Error: ' + result.error);
+        }
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    }
+  </script>
 </head>
 <body>
-  <form action="/api/send-email.js" method="POST">
+  <form onsubmit="handleSubmit(event)">
     <div class="w-full lg:mx-auto lg:w-2/3">
       <div class="mb-8 w-full px-4">
         <label for="name" class="text-base font-bold text-primary">Nama</label>

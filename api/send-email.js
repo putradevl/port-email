@@ -30,3 +30,8 @@ export default async (req, res) => {
     res.status(405).json({ message: 'Method not allowed' });
   }
 };
+
+// Middleware untuk halaman 404 kustom
+app.use((req, res, next) => {
+  res.status(404).sendFile(path.join(__dirname, 'public', 'index.html'));
+});

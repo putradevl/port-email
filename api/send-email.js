@@ -16,13 +16,13 @@ export default async (req, res) => {
     let mailOptions = {
       from: process.env.EMAIL,
       to: 'saputraluhurp@gmail.com',
-      subject: 'Form Submission',
+      subject: 'Portfolio Form Submission',
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     };
 
     try {
       await transporter.sendMail(mailOptions);
-      res.status(200).json({ message: 'Email sent successfully!' });
+      res.status(200).json({ message: 'Email berhasil dikirim' });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saputra Luhur - Brutal Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:'Anton', sans-serif;
+  background:#fff;
+  color:#000;
+  cursor:none;
+}
+
+/* cursor */
+.cursor{
+  width:18px;
+  height:18px;
+  border:3px solid black;
+  position:fixed;
+  z-index:9999;
+  pointer-events:none;
+}
+
+/* brutal */
+.neo{
+  border:3px solid #000;
+  box-shadow:8px 8px 0 #000;
+}
+
+.neo-sm{
+  border:2px solid #000;
+  box-shadow:4px 4px 0 #000;
+}
+
+.neo-btn{
+  background:#ffeb3b;
+  padding:12px 24px;
+  border:3px solid #000;
+  box-shadow:5px 5px 0 #000;
+  display:inline-block;
+  margin-top:20px;
+  transition:.1s;
+}
+
+.neo-btn:hover{
+  transform:translate(4px,4px);
+  box-shadow:1px 1px 0 #000;
+}
+
+.yellow{background:#ffeb3b}
+.red{background:#ff5252;color:#fff}
+.blue{background:#2962ff;color:#fff}
+
+section{padding:80px 20px}
+
+.title{
+  font-size:60px;
+  line-height:1;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  margin-top:40px;
+}
+
+.card{
+  transition:.2s;
+  background:#fff;
+}
+
+.card:hover{
+  transform:rotate(-2deg) scale(1.03);
+}
+
+/* navbar */
+.nav{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#fff;
+  padding:10px 20px;
+  z-index:999;
+}
+
+/* footer */
+footer{
+  text-align:center;
+  padding:40px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="cursor"></div>
+
+<!-- NAV -->
+<div class="nav neo">
+  SAPUTRA
+</div>
+
+<!-- HERO -->
+<section class="yellow">
+  <div class="neo" style="padding:40px;">
+    <h1 class="title">
+      SAPUTRA <br> LUHUR
+    </h1>
+
+    <p class="neo-sm" style="padding:10px;margin-top:20px;">
+      GRAPHIC DESIGNER / ADMIN / OPERATOR
+    </p>
+
+    <a href="#" class="neo-btn">DOWNLOAD CV</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="blue">
+  <div class="neo" style="padding:30px;">
+    <h2 class="title">ABOUT</h2>
+    <p style="margin-top:20px;">
+      Saya memiliki pengalaman dalam customer service, desain grafis,
+      dan operasional. Terbiasa menangani 100+ pelanggan per hari
+      dengan komunikasi yang efektif dan profesional.
+    </p>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="red">
+  <h2 class="title">PROJECT</h2>
+
+  <div class="grid">
+
+    <div class="neo card">
+      <img src="https://cdn.putradev.my.id/port/img/project/ads.jpg" width="100%">
+      <h3>SOCIAL ADS</h3>
+    </div>
+
+    <div class="neo card">
+      <img src="https://cdn.putradev.my.id/port/img/project/xbanner.jpg" width="100%">
+      <h3>X BANNER</h3>
+    </div>
+
+    <div class="neo card">
+      <img src="https://cdn.putradev.my.id/port/img/project/MMT-min.jpg" width="100%">
+      <h3>BANNER</h3>
+    </div>
+
+    <div class="neo card">
+      <img src="https://cdn.putradev.my.id/port/img/project/post-min.jpg" width="100%">
+      <h3>POSTER</h3>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="yellow">
+  <div class="neo" style="padding:30px;">
+    <h2 class="title">CONTACT</h2>
+
+    <form onsubmit="sendMail(event)">
+      <input type="text" placeholder="Nama" class="neo-sm" style="width:100%;padding:10px;margin-top:10px;"><br>
+      <input type="email" placeholder="Email" class="neo-sm" style="width:100%;padding:10px;margin-top:10px;"><br>
+      <textarea placeholder="Pesan" class="neo-sm" style="width:100%;padding:10px;margin-top:10px;"></textarea><br>
+
+      <button class="neo-btn">Kirim</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="neo">
+  © 2026 SAPUTRA LUHUR
+</footer>
+
+<!-- GSAP -->
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+
+<script>
+/* cursor */
+const cursor = document.querySelector(".cursor");
+document.addEventListener("mousemove",(e)=>{
+  cursor.style.top=e.clientY+"px";
+  cursor.style.left=e.clientX+"px";
+});
+
+/* animation */
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.from(".title",{
+  y:100,
+  opacity:0,
+  duration:1,
+  scrollTrigger:{
+    trigger:".title",
+    start:"top 80%"
+  }
+});
+
+gsap.from(".card",{
+  scale:0.8,
+  opacity:0,
+  stagger:0.2,
+  scrollTrigger:{
+    trigger:".card",
+    start:"top 85%"
+  }
+});
+
+/* fake send */
+function sendMail(e){
+  e.preventDefault();
+  alert("Pesan terkirim 🚀");
+}
+</script>
+
+</body>
+</html>

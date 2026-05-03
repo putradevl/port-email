@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saputra Luhur Pambudi</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="https://cdn.putradev.my.id/port/favico/apple-icon-57x57.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.putradev.my.id/port/favico/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.putradev.my.id/port/favico/favicon-16x16.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Epilogue:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --white: #fafaf7;
+            --yellow: #ffe135;
+            --pink: #ff6b9d;
+            --blue: #5b8dee;
+            --green: #3ecf8e;
+            --border: 3px solid #0a0a0a;
+            --shadow: 5px 5px 0px #0a0a0a;
+            --shadow-lg: 8px 8px 0px #0a0a0a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Epilogue', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            overflow-x: hidden;
+        }
+
+        /* NOISE TEXTURE OVERLAY */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.4;
+        }
+
+        /* ========================
+           HEADER
+        ======================== */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: var(--yellow);
+            border-bottom: var(--border);
+            padding: 0 2rem;
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 64px;
+        }
+
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--black);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            border: var(--border);
+            padding: 6px 14px;
+            background: var(--black);
+            color: var(--yellow);
+            box-shadow: var(--shadow);
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .logo:hover { transform: translate(-2px, -2px); box-shadow: var(--shadow-lg); }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 4px;
+            align-items: center;
+        }
+
+        nav a {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--black);
+            text-decoration: none;
+            padding: 6px 12px;
+            border: var(--border);
+            background: transparent;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.15s;
+        }
+        nav a:hover {
+            background: var(--black);
+            color: var(--yellow);
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            background: var(--black);
+            border: var(--border);
+            padding: 10px 12px;
+            box-shadow: 3px 3px 0 var(--black);
+            flex-shrink: 0;
+        }
+        .hamburger span {
+            display: block;
+            width: 22px;
+            height: 2.5px;
+            background: var(--yellow);
+            border-radius: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform-origin: center;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+        /* Desktop nav */
+        #nav-menu { display: flex; }
+
+        /* ========================
+           RESPONSIVE — TABLET & MOBILE
+        ======================== */
+
+        /* Tablet (≤900px) */
+        @media (max-width: 900px) {
+            .hero-grid,
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            .hero-img-wrap {
+                max-width: 380px;
+                margin: 0 auto;
+            }
+            .contact-grid { gap: 3rem; }
+        }
+
+        /* Mobile (≤768px) — Hamburger menu on */
+        @media (max-width: 768px) {
+            header { padding: 0 1rem; }
+
+            .nav-inner { height: 60px; }
+
+            .hamburger { display: flex; }
+
+            /* Mobile nav overlay */
+            #nav-menu {
+                display: none;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: var(--yellow);
+                border-top: var(--border);
+                padding: 1.5rem 1rem;
+                overflow-y: auto;
+                z-index: 99;
+                /* Slide-down animation */
+                transform: translateY(-10px);
+                opacity: 0;
+                transition: transform 0.25s ease, opacity 0.25s ease;
+            }
+            #nav-menu.open {
+                display: block;
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 8px;
+                padding: 0;
+            }
+            nav ul li { width: 100%; }
+            nav a {
+                display: block;
+                width: 100%;
+                font-size: 1.1rem;
+                padding: 14px 20px;
+                border: var(--border);
+                background: var(--white);
+                box-shadow: 4px 4px 0 var(--black);
+                letter-spacing: 1px;
+            }
+            nav a:hover, nav a:active {
+                background: var(--black);
+                color: var(--yellow);
+                transform: translate(-2px, -2px);
+                box-shadow: 6px 6px 0 var(--black);
+            }
+
+            /* Sections */
+            section { padding: 4rem 1rem; }
+            #home { padding-top: 6rem; min-height: auto; }
+
+            .hero-grid { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+            .hero-badge { font-size: 0.65rem; }
+            .hero-name { font-size: clamp(2.4rem, 10vw, 3.5rem); letter-spacing: -1px; }
+            .hero-role { font-size: 0.85rem; }
+            .hero-img-wrap { max-width: 300px; margin: 0 auto; }
+            .hero-deco, .hero-deco-2 { display: none; }
+
+            .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .about-text { font-size: 0.9rem; }
+            .about-right h3 { font-size: 1.4rem; }
+            .social-row { gap: 8px; }
+            .social-btn { font-size: 0.7rem; padding: 7px 12px; }
+
+            .portfolio-grid { grid-template-columns: 1fr; }
+
+            .cert-grid { grid-template-columns: 1fr; }
+
+            .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .contact-info h2 { font-size: 1.6rem; }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding-bottom: 2rem;
+            }
+            .footer-name { font-size: 1.5rem; }
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .section-title { font-size: clamp(1.8rem, 8vw, 2.8rem); }
+        }
+
+        /* Small mobile (≤480px) */
+        @media (max-width: 480px) {
+            .logo { font-size: 0.85rem; padding: 5px 10px; }
+            .hero-name { font-size: clamp(2rem, 11vw, 3rem); }
+            .btn-primary { font-size: 0.8rem; padding: 12px 20px; width: 100%; text-align: center; }
+            .portfolio-grid { gap: 1.5rem; }
+            .cert-grid { gap: 1.5rem; }
+            .ticker span { font-size: 0.7rem; padding: 0 1.2rem; }
+        }
+
+        /* ========================
+           SECTIONS COMMON
+        ======================== */
+        section { padding: 6rem 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .section-tag {
+            display: inline-block;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: var(--black);
+            color: var(--yellow);
+            padding: 4px 12px;
+            border: var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Epilogue', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1;
+            color: var(--black);
+        }
+
+        /* ========================
+           HERO
+        ======================== */
+        #home {
+            padding-top: 9rem;
+            background: var(--white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: var(--border);
+            padding: 6px 16px;
+            background: var(--pink);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-name {
+            font-family: 'Epilogue', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            line-height: 0.95;
+            letter-spacing: -2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-name .highlight {
+            background: var(--yellow);
+            padding: 0 8px;
+            border: var(--border);
+            display: inline;
+        }
+
+        .hero-role {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            color: #444;
+        }
+
+        .hero-role strong { color: var(--black); }
+
+        .btn-primary {
+            display: inline-block;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 14px 28px;
+            background: var(--black);
+            color: var(--yellow);
+            border: var(--border);
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn-primary:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 11px 11px 0px var(--black);
+        }
+
+        .hero-img-wrap {
+            position: relative;
+        }
+
+        .hero-img-frame {
+            border: var(--border);
+            box-shadow: var(--shadow-lg);
+            background: var(--yellow);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-img-frame img {
+            width: 100%;
+            display: block;
+        }
+
+        .hero-deco {
+            position: absolute;
+            bottom: -16px;
+            right: -16px;
+            width: 120px;
+            height: 120px;
+            background: var(--pink);
+            border: var(--border);
+            z-index: -1;
+        }
+
+        .hero-deco-2 {
+            position: absolute;
+            top: -16px;
+            left: -16px;
+            width: 80px;
+            height: 80px;
+            background: var(--blue);
+            border: var(--border);
+            z-index: -1;
+        }
+
+        /* ========================
+           ABOUT
+        ======================== */
+        #about {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        #about .section-tag {
+            background: var(--yellow);
+            color: var(--black);
+            border-color: var(--yellow);
+        }
+
+        #about .section-title { color: var(--white); }
+
+        .about-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #ccc;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--yellow);
+            padding-left: 1.5rem;
+        }
+
+        .about-right h3 {
+            font-family: 'Epilogue', sans-serif;
+            font-weight: 900;
+            font-size: 1.8rem;
+            color: var(--yellow);
+            margin-bottom: 1rem;
+        }
+
+        .about-right p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #ccc;
+            margin-bottom: 2rem;
+        }
+
+        .social-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: 2px solid var(--white);
+            color: var(--white);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: all 0.15s;
+            box-shadow: 3px 3px 0 var(--white);
+        }
+        .social-btn:hover {
+            background: var(--yellow);
+            border-color: var(--yellow);
+            color: var(--black);
+            box-shadow: 3px 3px 0 var(--yellow);
+        }
+
+        /* ========================
+           PORTFOLIO
+        ======================== */
+        #portofolio {
+            background: var(--yellow);
+        }
+
+        .portfolio-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .portfolio-card {
+            background: var(--white);
+            border: var(--border);
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.15s, box-shadow 0.15s;
+            overflow: hidden;
+        }
+        .portfolio-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px var(--black);
+        }
+
+        .portfolio-card-img {
+            display: block;
+            overflow: hidden;
+            border-bottom: var(--border);
+            aspect-ratio: 16/9;
+        }
+        .portfolio-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s;
+        }
+        .portfolio-card:hover .portfolio-card-img img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-card-body {
+            padding: 1.5rem;
+        }
+
+        .portfolio-card-body h3 {
+            font-family: 'Epilogue', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .portfolio-card-body p {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* ========================
+           SERTIFIKAT
+        ======================== */
+        #sertifikat {
+            background: var(--blue);
+        }
+
+        #sertifikat .section-tag {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        #sertifikat .section-title { color: var(--white); }
+
+        .sertifikat-sub {
+            color: var(--white);
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            max-width: 500px;
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .cert-card {
+            background: var(--white);
+            border: var(--border);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .cert-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px var(--black);
+        }
+
+        .cert-card a {
+            display: block;
+            border-bottom: var(--border);
+            overflow: hidden;
+        }
+        .cert-card img {
+            width: 100%;
+            display: block;
+            transition: transform 0.3s;
+        }
+        .cert-card:hover img { transform: scale(1.04); }
+
+        .cert-card-body {
+            padding: 1.25rem;
+        }
+        .cert-card-body h3 {
+            font-family: 'Epilogue', sans-serif;
+            font-weight: 900;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .cert-card-body p {
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        /* ========================
+           CONTACT
+        ======================== */
+        #contact {
+            background: var(--white);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info h2 {
+            font-family: 'Epilogue', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            line-height: 1.1;
+            margin: 1rem 0;
+        }
+
+        .contact-info p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border: var(--border);
+            background: var(--yellow);
+            box-shadow: var(--shadow);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .contact-form-wrap { }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: var(--border);
+            background: var(--white);
+            font-family: 'Epilogue', sans-serif;
+            font-size: 0.95rem;
+            color: var(--black);
+            outline: none;
+            transition: box-shadow 0.15s;
+            box-shadow: none;
+        }
+        input:focus, textarea:focus {
+            box-shadow: var(--shadow);
+        }
+        textarea { height: 140px; resize: vertical; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--black);
+            color: var(--yellow);
+            border: var(--border);
+            box-shadow: var(--shadow-lg);
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn-submit:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 11px 11px 0px var(--black);
+        }
+
+        /* ========================
+           FOOTER
+        ======================== */
+        footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 4rem 2rem 2rem;
+            border-top: var(--border);
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid #333;
+        }
+
+        .footer-name {
+            font-family: 'Epilogue', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            line-height: 1;
+            color: var(--yellow);
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-hire {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-bottom: 4px;
+        }
+
+        .footer-email {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--yellow);
+        }
+
+        .footer-links h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 8px; }
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-family: 'Space Mono', monospace;
+            transition: color 0.15s;
+        }
+        .footer-links a:hover { color: var(--yellow); }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 2rem auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            color: #666;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 8px;
+        }
+        .footer-social-btn {
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid #333;
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+        .footer-social-btn:hover {
+            border-color: var(--yellow);
+            background: var(--yellow);
+            color: var(--black);
+        }
+        .footer-social-btn svg { width: 16px; fill: currentColor; }
+
+        /* ========================
+           BACK TO TOP
+        ======================== */
+        #to-top {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 48px; height: 48px;
+            background: var(--yellow);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--black);
+            font-size: 1.2rem;
+            font-weight: 900;
+            transition: transform 0.15s, box-shadow 0.15s;
+            z-index: 200;
+        }
+        #to-top.visible { display: flex; }
+        #to-top:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* ========================
+           TICKER TAPE
+        ======================== */
+        .ticker-wrap {
+            overflow: hidden;
+            background: var(--pink);
+            border-top: var(--border);
+            border-bottom: var(--border);
+            padding: 10px 0;
+        }
+        .ticker {
+            display: flex;
+            gap: 0;
+            animation: ticker 20s linear infinite;
+            width: max-content;
+        }
+        .ticker span {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            padding: 0 2rem;
+            color: var(--black);
+        }
+        .ticker span::after {
+            content: ' ★ ';
+            padding: 0 0.5rem;
+        }
+        @keyframes ticker {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* Responsive handled above in media queries */
+    </style>
+
+    <script>
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            try {
+                const response = await fetch('/api/send-email.js', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+                if (response.ok) {
+                    alert('Email berhasil dikirim');
+                    window.location.href = '#contact';
+                } else {
+                    const result = await response.json();
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="nav-inner">
+        <a href="#home" class="logo">SLP</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav id="nav-menu">
+            <ul>
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#about">Tentang</a></li>
+                <li><a href="#portofolio">Portfolio</a></li>
+                <li><a href="#sertifikat">Sertifikat</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- HERO -->
+<section id="home">
+    <div class="container">
+        <div class="hero-grid">
+            <div>
+                <div class="hero-badge">👋 Halo Semua!</div>
+                <h1 class="hero-name">
+                    Saputra<br>
+                    <span class="highlight">Luhur</span><br>
+                    Pambudi
+                </h1>
+                <p class="hero-role">
+                    <strong>Graphic Designer</strong> &amp; <strong>Admin CS</strong><br>
+                    Operator · Content Creator · Digital Maker
+                </p>
+                <a href="https://cdn.putradev.my.id/port/CV/CV_SAPUTRA_LUHUR_PAMBUDI_2026" class="btn-primary">
+                    → Look at my CV
+                </a>
+            </div>
+            <div class="hero-img-wrap">
+                <div class="hero-img-frame">
+                    <img src="https://cdn.putradev.my.id/port/img/me.png" alt="Saputra Luhur Pambudi">
+                </div>
+                <div class="hero-deco"></div>
+                <div class="hero-deco-2"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TICKER TAPE -->
+<div class="ticker-wrap">
+    <div class="ticker">
+        <span>Graphic Designer</span>
+        <span>Customer Service</span>
+        <span>Operator</span>
+        <span>Content Creator</span>
+        <span>UI Enthusiast</span>
+        <span>Open to Work</span>
+        <span>Graphic Designer</span>
+        <span>Customer Service</span>
+        <span>Operator</span>
+        <span>Content Creator</span>
+        <span>UI Enthusiast</span>
+        <span>Open to Work</span>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div>
+                <span class="section-tag">// Tentang Saya</span>
+                <h2 class="section-title">Saputra<br>Luhur<br>Pambudi</h2>
+                <p class="about-text">
+                    Saya memiliki pengalaman kerja yang relevan di bidang operasional, layanan pelanggan, dan manajemen material. Memiliki rekam jejak yang kuat dalam mengelola lebih dari 100 interaksi pelanggan setiap hari dengan ramah dan solutif, serta memiliki ketelitian tinggi dalam pengoperasian mesin teknis maupun kontrol kualitas produk. Berbekal pengalaman di industri manufaktur ternama dan jasa produksi digital, saya terbiasa bekerja dengan target yang ketat, disiplin waktu, dan kerja sama tim yang solid.
+                </p>
+            </div>
+            <div class="about-right">
+                <h3>Mari Berteman 🤝</h3>
+                <p>Saya suka berinteraksi dengan orang baru dan berbagi pengalaman. Jangan ragu untuk menghubungi saya di platform sosial media yang tercantum.</p>
+                <div class="social-row">
+                    <a href="https://www.youtube.com/channel/UCjItygQoEaGZqICoCQsnAqA" target="_blank" class="social-btn">
+                        <svg viewBox="0 0 24 24" width="16" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        YouTube
+                    </a>
+                    <a href="https://www.instagram.com/saputraluhur27/" target="_blank" class="social-btn">
+                        <svg viewBox="0 0 24 24" width="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        Instagram
+                    </a>
+                    <a href="https://www.linkedin.com/in/saputra-luhur-pambudi-16a79b209/" target="_blank" class="social-btn">
+                        <svg viewBox="0 0 24 24" width="16" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portofolio">
+    <div class="container">
+        <div class="portfolio-header">
+            <span class="section-tag">// Portofolio</span>
+            <h2 class="section-title" style="margin-top: 1rem;">Project Terbaru</h2>
+            <p style="margin-top: 1rem; font-size:0.95rem; max-width: 560px; margin-inline: auto; color: #333;">Beberapa proyek yang pernah saya kerjakan — fiktif maupun aktif. Setiap karya mencerminkan dedikasi dan kemampuan saya.</p>
+        </div>
+        <div class="portfolio-grid">
+
+            <div class="portfolio-card">
+                <a class="portfolio-card-img" href="https://cdn.putradev.my.id/port/img/project/sosmed.jpg" target="_blank">
+                    <img src="https://cdn.putradev.my.id/port/img/project/sosmed.jpg" alt="Social Media Ads">
+                </a>
+                <div class="portfolio-card-body">
+                    <h3>Social Media Ads</h3>
+                    <p>Serangkaian iklan media sosial untuk kolaborasi ShopSmart × ABC Bank. Dirancang untuk menarik perhatian pelanggan dengan pengalaman berbelanja yang lebih hemat dan menguntungkan.</p>
+                </div>
+            </div>
+
+            <div class="portfolio-card">
+                <a class="portfolio-card-img" href="https://cdn.putradev.my.id/port/img/project/xbanner.jpg" target="_blank">
+                    <img src="https://cdn.putradev.my.id/port/img/project/xbanner.jpg" alt="X Banner Wisuda">
+                </a>
+                <div class="portfolio-card-body">
+                    <h3>X Banner Wisuda</h3>
+                    <p>X-banner elegan untuk acara kelulusan dengan tema UI aplikasi Mbanking BRImo. Memadukan desain modern dengan elemen visual yang menarik dan fungsional.</p>
+                </div>
+            </div>
+
+            <div class="portfolio-card">
+                <a class="portfolio-card-img" href="https://cdn.putradev.my.id/port/img/project/MMT-min.jpg" target="_blank">
+                    <img src="https://cdn.putradev.my.id/port/img/project/MMT-min.jpg" alt="Banner MMT">
+                </a>
+                <div class="portfolio-card-body">
+                    <h3>Banner MMT Toko Usaha</h3>
+                    <p>Banner kreatif untuk Alexa Cell, konter top-up game. Menggabungkan elemen visual dinamis dan karakter game populer untuk menarik target audiens gamer.</p>
+                </div>
+            </div>
+
+            <div class="portfolio-card">
+                <a class="portfolio-card-img" href="https://cdn.putradev.my.id/port/img/project/lanyard id-min.jpg" target="_blank">
+                    <img src="https://cdn.putradev.my.id/port/img/project/lanyard id-min.jpg" alt="Lanyard ID Card">
+                </a>
+                <div class="portfolio-card-body">
+                    <h3>Lanyard ID Card Panitia</h3>
+                    <p>Desain lanyard ID card untuk HUT RI ke-79 bertema "Nusantara Baru, Indonesia Maju". Mengusung warna merah putih dengan estetika modern dan nasionalis.</p>
+                </div>
+            </div>
+
+            <div class="portfolio-card">
+                <a class="portfolio-card-img" href="https://cdn.putradev.my.id/port/img/project/post-min.jpg" target="_blank">
+                    <img src="https://cdn.putradev.my.id/port/img/project/post-min.jpg" alt="Poster Kemerdekaan">
+                </a>
+                <div class="portfolio-card-body">
+                    <h3>Poster Hari Kemerdekaan</h3>
+                    <p>Poster peringatan Hari Kemerdekaan Indonesia dengan dominasi warna merah putih yang menonjolkan semangat patriotisme dan kebersamaan bangsa.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- SERTIFIKAT -->
+<section id="sertifikat">
+    <div class="container">
+        <span class="section-tag">// Sertifikat</span>
+        <h2 class="section-title" style="margin-top: 1rem;">Pengakuan &<br>Penghargaan</h2>
+        <p class="sertifikat-sub">Berikut adalah beberapa sertifikat yang saya peroleh sebagai bukti keahlian dan kompetensi.</p>
+        <div class="cert-grid">
+
+            <div class="cert-card">
+                <a href="https://bakat.yec.co.id/certificate-graduation/YECCSFVMULRIUE" target="_blank">
+                    <img src="https://cdn.putradev.my.id/port/img/certificate/Microsoft Excel Untuk Staf Admin.jpg" alt="Microsoft Excel">
+                </a>
+                <div class="cert-card-body">
+                    <h3>Microsoft Excel Untuk Staf Admin</h3>
+                    <p>Meningkatkan akurasi data entry dan pengolahan data melalui penggunaan fungsi-fungsi canggih Excel.</p>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <a href="https://bakat.yec.co.id/certificate-graduation/YECNVTARSODJ2N" target="_blank">
+                    <img src="https://cdn.putradev.my.id/port/img/certificate/Bahasa Inggris Untuk Karyawan Perkantoran.jpg" alt="Bahasa Inggris">
+                </a>
+                <div class="cert-card-body">
+                    <h3>Bahasa Inggris Untuk Karyawan Perkantoran</h3>
+                    <p>Menguasai komunikasi bisnis dalam Bahasa Inggris, baik lisan maupun tulisan.</p>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <a href="https://bakat.yec.co.id/certificate-graduation/YECY06G8D19WTA" target="_blank">
+                    <img src="https://cdn.putradev.my.id/port/img/certificate/Membuat Website Toko Online.jpg" alt="Website Toko Online">
+                </a>
+                <div class="cert-card-body">
+                    <h3>Membuat Website Toko Online</h3>
+                    <p>Meningkatkan visibilitas dan aksesibilitas bisnis secara online dengan desain web yang user-friendly.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <span class="section-tag">// Contact</span>
+                <h2>Let's Get<br>In Touch</h2>
+                <p>Jika Anda tertarik untuk hiring atau hanya ingin berbicara, jangan ragu untuk menghubungi saya. Saya selalu terbuka untuk percakapan baru.</p>
+                <div class="contact-detail">
+                    📧 saputraluhurp@gmail.com
+                </div>
+            </div>
+            <div class="contact-form-wrap">
+                <form onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Nama</label>
+                        <input type="text" id="name" name="name" placeholder="Nama Lengkap Anda">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="email@contoh.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Pesan</label>
+                        <textarea id="message" name="message" placeholder="Tulis pesan Anda..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">→ Kirim Pesan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <div class="footer-name">Saputra Luhur<br>Pambudi</div>
+            <div class="footer-hire">Hire Me</div>
+            <div class="footer-email">saputraluhurp@gmail.com</div>
+        </div>
+        <div class="footer-links">
+            <h3>Navigate</h3>
+            <ul>
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#about">Tentang Saya</a></li>
+                <li><a href="#portofolio">Portofolio</a></li>
+                <li><a href="#sertifikat">Sertifikat</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h3>Social</h3>
+            <ul>
+                <li><a href="https://www.youtube.com/channel/UCjItygQoEaGZqICoCQsnAqA" target="_blank">YouTube</a></li>
+                <li><a href="https://www.instagram.com/saputraluhur27/" target="_blank">Instagram</a></li>
+                <li><a href="https://www.linkedin.com/in/saputra-luhur-pambudi-16a79b209/" target="_blank">LinkedIn</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>Dibuat dengan ❤ oleh <strong>Saputra Luhur Pambudi</strong> · Neobrutalism Design</p>
+        <div class="footer-socials">
+            <a href="https://www.youtube.com/channel/UCjItygQoEaGZqICoCQsnAqA" class="footer-social-btn" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/saputraluhur27/" class="footer-social-btn" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/saputra-luhur-pambudi-16a79b209/" class="footer-social-btn" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<a href="#home" id="to-top" aria-label="Back to top">↑</a>
+
+<script>
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+
+    hamburger.addEventListener('click', () => {
+        const isOpen = navMenu.classList.contains('open');
+        hamburger.classList.toggle('open');
+        if (!isOpen) {
+            navMenu.style.display = 'block';
+            // Force reflow for transition
+            navMenu.offsetHeight;
+            navMenu.classList.add('open');
+        } else {
+            navMenu.classList.remove('open');
+            setTimeout(() => {
+                if (!navMenu.classList.contains('open')) {
+                    navMenu.style.display = '';
+                }
+            }, 250);
+        }
+    });
+
+    // Close nav on link click (mobile)
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('open');
+            navMenu.classList.remove('open');
+            setTimeout(() => { navMenu.style.display = ''; }, 250);
+        });
+    });
+
+    // Close nav on outside click
+    document.addEventListener('click', (e) => {
+        if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+            hamburger.classList.remove('open');
+            navMenu.classList.remove('open');
+            setTimeout(() => { navMenu.style.display = ''; }, 250);
+        }
+    });
+
+    // Back to top
+    const toTop = document.getElementById('to-top');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) toTop.classList.add('visible');
+        else toTop.classList.remove('visible');
+    });
+</script>
+
+</body>
+</html>
